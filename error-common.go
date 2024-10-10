@@ -23,11 +23,11 @@ func (obj CommonErrors) Error() string {
 }
 
 // Get the first error by key
-func (obj CommonErrors) GetFirst() error {
-	for _, err := range obj {
-		return err
+func (obj CommonErrors) GetFirst() (string, error) {
+	for key, err := range obj {
+		return key, err
 	}
-	return nil
+	return "", nil
 }
 
 // Check if a key exists
