@@ -26,11 +26,11 @@ func (obj FieldErrors) Error() string {
 }
 
 // Get the first error by key
-func (obj FieldErrors) GetFirst() error {
-	for _, err := range obj {
-		return err
+func (obj FieldErrors) GetFirst() (string, error) {
+	for key, err := range obj {
+		return key, err
 	}
-	return nil
+	return "", nil
 }
 
 // Check if a key exists
