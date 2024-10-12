@@ -3,6 +3,7 @@ package dodol
 import "fmt"
 
 type FieldError struct {
+	Source      string `json:"source,omitempty"`
 	Code        string `json:"code"`
 	Message     string `json:"message,omitempty"`
 	ExpectedVal string `json:"expectedVal,omitempty"`
