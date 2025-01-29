@@ -5,10 +5,11 @@ import "fmt"
 type CommonError struct {
 	Code    string `json:"code"`
 	Message string `json:"message,omitempty"`
+	Detail  string `json:"detail"`
 }
 
 func (obj CommonError) Error() string {
-	return fmt.Sprintf("code: %v; message: %v", obj.Code, obj.Message)
+	return fmt.Sprintf("code: %v; message: %v; detail: %v", obj.Code, obj.Message, obj.Detail)
 }
 
 type CommonErrors map[string]CommonError
@@ -17,7 +18,7 @@ type CommonErrors map[string]CommonError
 func (obj CommonErrors) Error() string {
 	output := ""
 	for key, err := range obj {
-		output += fmt.Sprintf("key: %v, code: %v; message: %v\n", key, err.Code, err.Message)
+		output += fmt.Sprintf("key: %v; code: %v; message: %v; detail: %v\n", key, err.Code, err.Message, err.Detail)
 	}
 	return output
 }
