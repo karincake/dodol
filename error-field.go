@@ -12,7 +12,18 @@ type FieldError struct {
 }
 
 func (obj FieldError) Error() string {
-	return fmt.Sprintf("code: %v; message: %v; expected value: %v; given value: %v", obj.Code, obj.Message, obj.ExpectedVal, obj.GivenVal)
+	msg := "code: " + obj.Code
+	if obj.Message != "" {
+		msg += "; message: " + obj.Message
+	}
+	if obj.ExpectedVal != "" {
+		msg += "; expected value: " + obj.ExpectedVal
+		msg += "; given value: " + fmt.Sprintf("%v", obj.GivenVal)
+	}
+	if obj.EmbedSource != "" {
+		msg += "; embed source: " + obj.EmbedSource
+	}
+	return msg
 }
 
 type FieldErrors map[string]FieldError
@@ -21,7 +32,18 @@ type FieldErrors map[string]FieldError
 func (obj FieldErrors) Error() string {
 	output := ""
 	for key, err := range obj {
-		output += fmt.Sprintf("key: %v, code: %v; message: %v; expected value: %v; given value: %v \n", key, err.Code, err.Message, err.ExpectedVal, err.GivenVal)
+		output += "key: " + key + ", code: " + err.Code
+		if err.Message != "" {
+			output += "; message: " + err.Message
+		}
+		if err.ExpectedVal != "" {
+			output += "; expected value: " + err.ExpectedVal
+			output += "; given value: " + fmt.Sprintf("%v", err.GivenVal)
+		}
+		if err.EmbedSource != "" {
+			output += "; embed source: " + err.EmbedSource
+		}
+		output += "\n"
 	}
 	return output
 }

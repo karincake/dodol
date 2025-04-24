@@ -1,7 +1,5 @@
 package dodol
 
-import "fmt"
-
 type CommonError struct {
 	Code    string `json:"code"`
 	Message string `json:"message,omitempty"`
@@ -9,7 +7,14 @@ type CommonError struct {
 }
 
 func (obj CommonError) Error() string {
-	return fmt.Sprintf("code: %v; message: %v; detail: %v", obj.Code, obj.Message, obj.Detail)
+	msg := "code: " + obj.Code
+	if obj.Message != "" {
+		msg += "; message: " + obj.Message
+	}
+	if obj.Detail != "" {
+		msg += "; detail: " + obj.Detail
+	}
+	return msg
 }
 
 type CommonErrors map[string]CommonError
@@ -18,7 +23,14 @@ type CommonErrors map[string]CommonError
 func (obj CommonErrors) Error() string {
 	output := ""
 	for key, err := range obj {
-		output += fmt.Sprintf("key: %v; code: %v; message: %v; detail: %v\n", key, err.Code, err.Message, err.Detail)
+		output += "key: " + key + ", code: " + err.Code
+		if err.Message != "" {
+			output += "; message: " + err.Message
+		}
+		if err.Detail != "" {
+			output += "; detail: " + err.Detail
+		}
+		output += "\n"
 	}
 	return output
 }
